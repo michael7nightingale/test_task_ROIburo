@@ -27,6 +27,17 @@ async def load_street_data() -> None:
     )
 
 
+async def load_shops_data() -> None:
+    city_data = load_csv_data("app/data/shops.csv")
+    await Shop.bulk_create(
+        [
+            Shop(**data) for data in city_data
+        ],
+        ignore_conflicts=True
+    )
+
+
 async def load_all_data() -> None:
     await load_city_data()
     await load_street_data()
+    await load_shops_data()
