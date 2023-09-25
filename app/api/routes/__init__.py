@@ -1,7 +1,8 @@
-from . import main
+from . import main, locations
 
 
 routers = [
     main.router,
+    locations.router,
 
 ]
