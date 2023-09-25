@@ -1,20 +1,17 @@
 from fastapi import FastAPI
-from starlette.middleware.authentication import AuthenticationMiddleware
 from tortoise.contrib.fastapi import register_tortoise
 
 from app.api.routes import routers
 from .config import get_app_settings
 from .settings.base import BaseAppSettings, AppEnvTypes
+from ..service.load_data import load_all_data
 
 
-def startup_handler(app: FastAPI):
-    async def inner():
-        configurate_db(app)
-
-    return inner
+async def startup_handler():
+    await load_all_data()
 
 
-def configurate_db(app: FastAPI):
+def configurate_db(app: FastAPI) -> None:
     register_tortoise(
         app=app,
         config={
