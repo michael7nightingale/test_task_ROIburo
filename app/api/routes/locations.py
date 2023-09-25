@@ -1,9 +1,8 @@
-from fastapi import APIRouter, Depends, Query, Body
+from fastapi import APIRouter, Depends
 
 from app.api.dependencies.locations import get_city_dependency
 from app.schemas.locations import CityListSchema, CityStreetsScheme
 from app.models import City
-
 
 router = APIRouter(prefix="")
 

@@ -1,1 +1,2 @@
-from .locations import City, Street, Shop
+from .locations import City, Street
+from .shops import Shop
