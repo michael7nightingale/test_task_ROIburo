@@ -11,9 +11,10 @@ services:
     ports:
       - "8000:8000"
     command: >
-      sh -c "gunicorn app.main:create_app -b 0.0.0.0:8000 --workers 4 --worker-class uvicorn.workers.UvicornWorker --access-logfile -"
+      sh -c "uvicorn app.main:create_app --host 0.0.0.0 --port 8000"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     networks:
       - default
 
@@ -21,11 +22,16 @@ services:
   db:
     image: postgres:15-alpine
     ports:
-      - "5444:5444"
+      - "5445:5445"
     environment:
-      - POSTGRES_DB=roiburo
+      - POSTGRES_DB=roi
       - POSTGRES_USER=db_user
       - POSTGRES_PASSWORD=db_password
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     networks:
       - default
 
