@@ -1,6 +1,5 @@
 from tortoise import fields, BaseDBAsyncClient
 from tortoise.expressions import Q
-from tortoise.queryset import QuerySetSingle
 
 from typing import Optional, Any
 
@@ -17,7 +16,8 @@ class City(TortoiseModel):
     @classmethod
     async def get_or_none(
         cls, *args: Q, using_db: Optional[BaseDBAsyncClient] = None, **kwargs: Any
-    ) -> QuerySetSingle[Optional["City"]]:
+    ) -> Optional["City"]:
+        """`get_or_none` method optimization."""
         return await (
             super()
             .get_or_none(*args, using_db=using_db, **kwargs)

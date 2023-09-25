@@ -17,7 +17,7 @@ class ShopCreateResponseScheme(BaseModel):
     id: str
 
 
-class ShopDetailScheme(BaseShopScheme):
+class ShopListScheme(BaseShopScheme):
     id: str
     city_name: str
     street_name: str
