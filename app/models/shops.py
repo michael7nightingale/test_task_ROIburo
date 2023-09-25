@@ -1,8 +1,8 @@
 from tortoise import fields, BaseDBAsyncClient
-from tortoise.expressions import Q
+from tortoise.expressions import Q, F
 
 from typing import Optional, Any
-from datetime import time, datetime
+from datetime import time, datetime, timezone
 
 from .locations import Street
 from .base import TortoiseModel
@@ -68,22 +68,54 @@ class Shop(TortoiseModel):
             open_: bool | None
     ) -> list["Shop"]:
         """Custom filter method for getting shop list."""
-        where = {}  # filter expressions dict
+        where_kwargs = {}  # filter expressions dict
+        where_args = []
         if city_name is not None:
-            where["city__name"] = city_name
+            where_kwargs["city__name"] = city_name
         if street_name is not None:
-            where['street__name'] = street_name
+            where_kwargs['street__name'] = street_name
         if open_ is not None:
-            now_time = datetime.now().time()
+            now_datetime = datetime.now(tz=timezone.utc)
+            now_time = time(
+                hour=now_datetime.hour + 5,
+                minute=now_datetime.minute,
+                second=now_datetime.second,
+                tzinfo=timezone.utc
+            )
             if open_:
-                where["time_open__gte"] = now_time
-                where["time_close__lt"] = now_time
+                queryset = await cls.filter(
+                    time_open__lte=F("time_close"),
+                    time_open__lt=now_time,
+                    time_close__gte=now_time,
+                    **where_kwargs
+                )
+                queryset.extend(
+                    await cls.filter(
+                        Q(time_open__lt=now_time) | Q(time_close__gte=now_time),
+                        time_open__gt=F("time_close"),
+                        **where_kwargs
+                    )
+                )
+                return queryset
             else:
-                where["time_open__lt"] = now_time
-                where["time_close__gte"] = now_time
-        if where == {}:
-            return await cls.all()  # type: ignore
-        return await cls.filter(**where)
+                queryset = await cls.filter(
+                    Q(time_open__gt=now_time) | Q(time_close__lte=now_time),
+                    time_open__lte=F("time_close"),
+                    **where_kwargs
+                )
+                queryset.extend(
+                    await cls.filter(
+                        Q(time_open__gt=now_time),
+                        time_open__gt=F("time_close"),
+                        time_close__lte=now_time,
+                        **where_kwargs
+                    )
+                )
+                return queryset
+        else:
+            if not any([where_args, where_kwargs]):
+                return await cls.all()  # type: ignore
+            return await cls.filter(*where_args, **where_kwargs)
 
     def __str__(self) -> str:
         return self.name
