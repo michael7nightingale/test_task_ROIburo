@@ -69,7 +69,7 @@ class Shop(TortoiseModel):
         where_kwargs = {}  # filter expressions dict
         where_args = []
         if city_name is not None:
-            where_kwargs["city__name"] = city_name
+            where_kwargs["street__city__name"] = city_name
         if street_name is not None:
             where_kwargs['street__name'] = street_name
         if open_ is not None:
