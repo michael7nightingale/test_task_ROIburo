@@ -31,6 +31,6 @@ async def get_shops(
     """
     shops = await Shop.filter_shops(street_name=street, city_name=city, open_=open_)
     return [
-        ShopListScheme(**shop.as_dict(), city_name=shop.city.name, street_name=shop.street.name)
+        ShopListScheme(**shop.as_dict(), city_name=shop.street.city.name, street_name=shop.street.name)
         for shop in shops
     ]

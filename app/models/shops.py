@@ -11,7 +11,6 @@ from .base import TortoiseModel
 class Shop(TortoiseModel):
     """Shop entity model."""
     name = fields.CharField(max_length=255)
-    city = fields.ForeignKeyField("models.City")
     street = fields.ForeignKeyField("models.Street")
     time_open = fields.TimeField()
     time_close = fields.TimeField()
@@ -20,21 +19,20 @@ class Shop(TortoiseModel):
     async def create(
             cls,
             name: str,
-            city_id: str,
-            street_id: str,
+            city_name: str,
+            street_name: str,
             time_open: time,
             time_close: time,
             using_db: Optional[BaseDBAsyncClient] = None,
     ) -> Optional["Shop"]:
         """Create custom method to get street and city if exists."""
-        street = await Street.get_or_none(id=street_id)
+        street = await Street.get_or_none(name=street_name, city__name=city_name)
         if street is None:
             return None
         return await (  # type: ignore
             super()
             .create(
                 name=name,
-                city_id=city_id,
                 street=street,
                 time_open=time_open,
                 time_close=time_close,
@@ -48,7 +46,7 @@ class Shop(TortoiseModel):
         return await (
             super()
             .filter(*args, **kwargs)
-            .select_related("street", "city")
+            .select_related("street", "street__city")
         )
 
     @classmethod
@@ -57,7 +55,7 @@ class Shop(TortoiseModel):
         return await (
             super()
             .all(using_db=using_db)
-            .select_related("street", "city")
+            .select_related("street", "street__city")
         )
 
     @classmethod

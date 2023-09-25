@@ -9,8 +9,8 @@ class BaseShopScheme(BaseModel):
 
 
 class ShopCreateScheme(BaseShopScheme):
-    city_id: str
-    street_id: str
+    city_name: str
+    street_name: str
 
 
 class ShopCreateResponseScheme(BaseModel):

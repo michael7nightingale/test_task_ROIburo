@@ -1,5 +1,5 @@
-id,name,city_id,street_id,time_open,time_close
-f9f64e0d-b4cf-4b2a-bea5-24d61693781d,Музыкальный Арсенал,bf2ddcdd-9b11-4ef9-bb35-6f9886e5b6bf,f9f64e0d-b4cf-4b2a-bea5-24d61693781d,10:00:00,21:00:00
-f9f52e0d-b4cf-4b2a-bea5-24d61693781d,Чип и Дип,bf2ddcdd-9b11-4ef9-bb35-6f9886e5b6bf,f9f64e0d-b4cf-4b2a-bea5-24d61693781d,09:00:00,20:00:00
-bf2qpcdd-9b11-4ef8-bb35-6f9886e5b3sf,Компьютерный магазин Антона Валека,f9f64e0d-b4cf-4b2a-bea5-24d61693781d,bf2qpcdd-9b11-4ef8-bb35-6f9886e5b3sf,13:00:00,23:00:00
-bf2qpcdd-9b11-4ef8-bb35-6f0917t5b3sf,Клуб в хаматы Антона Валека,f9f64e0d-b4cf-4b2a-bea5-24d61693781d,bf2qpcdd-9b11-4ef8-bb35-6f9886e5b3sf,01:00:00,09:00:00
+id,name,street_id,time_open,time_close
+f9f64e0d-b4cf-4b2a-bea5-24d61693781d,Музыкальный Арсенал,f9f64e0d-b4cf-4b2a-bea5-24d61693781d,10:00:00,21:00:00
+f9f52e0d-b4cf-4b2a-bea5-24d61693781d,Чип и Дип,f9f64e0d-b4cf-4b2a-bea5-24d61693781d,09:00:00,20:00:00
+bf2qpcdd-9b11-4ef8-bb35-6f9886e5b3sf,Компьютерный магазин Антона Валека,bf2qpcdd-9b11-4ef8-bb35-6f9886e5b3sf,13:00:00,23:00:00
+bf2qpcdd-9b11-4ef8-bb35-6f0917t5b3sf,Клуб в хаматы Антона Валека,bf2qpcdd-9b11-4ef8-bb35-6f9886e5b3sf,01:00:00,09:00:00
